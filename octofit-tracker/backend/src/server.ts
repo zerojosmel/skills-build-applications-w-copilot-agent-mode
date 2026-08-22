@@ -16,6 +16,11 @@ const apiBaseUrl = codespaceName
   : 'http://localhost:8000';
 
 app.use(express.json());
+app.use((_request, response, next) => {
+  response.header('Access-Control-Allow-Origin', '*');
+  response.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 app.get('/api/health', (_request, response) => {
   response.json({ status: 'ok', service: 'octofit-tracker-api', apiBaseUrl });

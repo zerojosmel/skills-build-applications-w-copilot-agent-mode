@@ -1,122 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 import './App.css'
 
+const views = [
+  ['/', 'Overview', '01'],
+  ['/activities', 'Activities', '02'],
+  ['/leaderboard', 'Leaderboard', '03'],
+  ['/teams', 'Teams', '04'],
+  ['/users', 'Members', '05'],
+  ['/workouts', 'Workouts', '06'],
+]
+
+function Overview() {
+  return <div className="overview-grid"><section className="welcome-panel"><span className="eyebrow">Saturday, 22 August</span><h2>Make today count.</h2><p>Small, consistent actions become your strongest routine.</p><NavLink className="primary-action" to="/workouts">View my workouts <span>-&gt;</span></NavLink></section><section className="quote-panel"><span className="eyebrow">Today's signal</span><strong>"Progress is a practice."</strong><p>Keep your momentum visible.</p></section></div>
+}
+
+function Page({ title, kicker, children }) {
+  return <><header className="page-heading"><span className="eyebrow">{kicker}</span><h2>{title}</h2></header>{children}</>
+}
+
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+  return <div className="app-shell">
+    <aside className="sidebar"><div className="brand-mark"><span>O</span><div>OCTOFIT<small>TRACKER</small></div></div><nav>{views.map(([path, label, number]) => <NavLink key={path} to={path} end={path === '/'}><span>{number}</span>{label}</NavLink>)}</nav><div className="sidebar-note"><span className="status-dot" />API connected<br /><small>Keep showing up.</small></div></aside>
+    <main className="main-content"><div className="mobile-brand">OCTOFIT <span>/ TRACKER</span></div><Routes><Route path="/" element={<><Page title="Your training space" kicker="Good morning, Maya" /><Overview /></>} /><Route path="/activities" element={<Page title="Recent movement" kicker="Your log"><Activities /></Page>} /><Route path="/leaderboard" element={<Page title="Friendly competition" kicker="This week"><Leaderboard /></Page>} /><Route path="/teams" element={<Page title="Find your people" kicker="Your circles"><Teams /></Page>} /><Route path="/users" element={<Page title="The community" kicker="OctoFit members"><Users /></Page>} /><Route path="/workouts" element={<Page title="Built for your next step" kicker="Your plan"><Workouts /></Page>} /></Routes></main>
+  </div>
 }
 
 export default App
